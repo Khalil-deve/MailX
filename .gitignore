@@ -1,0 +1,9 @@
+# Environment
+.env
+
+# Node dependencies
+node_modules/
+
+# Custom folders to ignore
+init/
+

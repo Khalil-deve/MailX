@@ -1,0 +1,39 @@
+.main_card {
+    background: rgba(20, 20, 50, 0.9) !important;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.icon i {
+    font-size: 4rem;
+    color:#E76F51 !important;
+}
+
+.form-floating label {
+    color: #E76F51;
+}
+
+.form-control {
+    background: #faf9f9 !important;
+    border: none;
+    color: white;
+}
+
+.form-control:focus {
+    background: #474747 !important;
+    color: white;
+    box-shadow: 0 0 10px #F4A261;
+}
+
+.btn-neon {
+    background: #E76F51 !important;
+    border: none;
+    color: white !important;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-neon:hover {
+    box-shadow: 0 0 15px #E76F51;
+    transform: scale(1.05);
+}
