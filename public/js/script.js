@@ -5,8 +5,6 @@ function toggleTheme() {
   body.classList.toggle("text-white");
 }
 
-console.log("Muhammad khalil");
-
 // Navbar toggling (placeholder for navbar-related functionality)
 
 // Email generator script
@@ -47,7 +45,6 @@ updateRandomEmail();
 
 // Function to set the email display and stop the auto-updating loop
 function setEmailDisplay(email) {
-  console.log(email);
   emailSpan.textContent = email;
   clearInterval(intervalId); // Stop the auto-updating loop
   finalEmail.textContent = email;
@@ -78,19 +75,25 @@ async function checkOtpLoop() {
     try {
       const res = await fetch("/get-otp"); // Fetch OTP from the server
       const data = await res.json();
-      console.log(data);
 
-      if (data.otp || data.subject || data.from || data.link) {
-        // If OTP or other data is received, display it
-        console.log("the link of the data is: ", data.link);
-        loader.style.display = "none";
-        otpResult.innerHTML = `🔐 OTP: <strong>${data.otp}</strong>`;
-        document.getElementById("emailFrom").textContent = data.from.address || "No sender found";
-        document.getElementById("emailTo").textContent = email || "No recipient found";
-        document.getElementById("emailSub").textContent = data.subject || "No subject found";
+        if (data.otp || data.subject || data.from || data.link) {
+          // If OTP or other data is received, display it
+          console.log("the link of the data is: ", data.link);
+          loader.style.display = "none";
+          otpResult.innerHTML = `🔐 OTP: <strong>${data.otp}</strong>`;
+          document.getElementById("emailFrom").textContent = data.from.address || "No sender found";
+          document.getElementById("emailTo").textContent = email || "No recipient found";
+          document.getElementById("emailSub").textContent = data.subject || "No subject found";
+  
+          return; // Stop polling
+        }
 
-        return; // Stop polling
-      }
+        if(timeLeft < 0) {
+          finalEmail.innerText = "⏰ Email expired."; // Update the email display to indicate expiration
+          return; // Stop polling if the email has expired
+        }
+    
+
     } catch (err) {
       console.error("Error fetching OTP:", err);
     }
@@ -113,7 +116,6 @@ document.getElementById("luckyBtn").addEventListener("pointerdown", async () => 
   const randomName = getRandomString();
   const domain = await getValidDomain();
   const randomEmail = `${randomName}@${domain}`;
-  console.log("the user email address is: ", randomEmail);
   setEmailDisplay(randomEmail);
   closeModalProperly();
   //Refresh the page
@@ -132,7 +134,6 @@ document.getElementById("luckyBtn").addEventListener("pointerdown", async () => 
   const res = await fetch(`/generate-email/${randomEmail}`); // Send the generated email to the server
   const data = await res.json();
   email = data.randEmail;
-  console.log("the user email address is: ", email);
 
   clearInterval(timerInterval); // Reset the timer
   timeLeft = 600;
@@ -163,7 +164,6 @@ document.getElementById("addInboxBtn").addEventListener("pointerdown", async () 
     const res = await fetch(`/generate-email/${randEmail}`); // Send the custom email to the server
     const data = await res.json();
     email = data.randEmail;
-    console.log("the user email address is: ", email);
     clearInterval(timerInterval); // Reset the timer
     timeLeft = 600;
     startTimer();
@@ -183,7 +183,7 @@ function startTimer() {
 
     if (timeLeft < 0) {
       clearInterval(timerInterval); // Stop the timer when time runs out
-      document.getElementById("otpResult").innerText = "⏰ Email expired.";
+      document.getElementById("otpResult").innerText = "";
       copyBtn.disabled = true;
       deleteBtn.disabled = true;
     }

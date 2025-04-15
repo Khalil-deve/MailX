@@ -9,7 +9,6 @@ const RequestLog = require("../model/requestLog.js");
 router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
   const ip = req.ip; // Get the IP address of the client
   const randEmail = req.params.randEmail; // Get the random email from the route parameter
-  console.log("Requested email:", randEmail);
 
   if (!randEmail) {
     // If no email is provided, return an error
@@ -27,7 +26,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     });
 
     const accountData = await accountRes.json();
-    console.log("Account response:", accountData);
+    // console.log("Account response:", accountData);
 
     if (accountRes.status !== 201) {
       // If account creation fails, return an error
@@ -43,7 +42,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     });
 
     const loginData = await loginRes.json();
-    console.log("Login response:", loginData);
+    // console.log("Login response:", loginData);
 
     if (!loginData.token) {
       // If login fails, return an error
@@ -61,7 +60,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     res.json({ randEmail });
   } catch (err) {
     // Handle any errors that occur during the process
-    console.error("Error generating email:", err);
+    // console.error("Error generating email:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -83,7 +82,7 @@ router.get("/get-otp", async (req, res) => {
     });
 
     const inbox = await inboxRes.json();
-    console.log("Inbox:", inbox);
+    // console.log("Inbox:", inbox);
 
     if (!inbox["hydra:member"] || inbox["hydra:member"].length === 0) {
       // If no messages are found, return an error
@@ -105,7 +104,7 @@ router.get("/get-otp", async (req, res) => {
     res.json({ otp, subject: fullMsg.subject, from: fullMsg.from });
   } catch (err) {
     // Handle any errors that occur during the process
-    console.error("Error fetching OTP:", err);
+    // console.error("Error fetching OTP:", err);
     res.status(500).json({ error: "Could not fetch OTP" });
   }
 });
