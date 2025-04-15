@@ -73,7 +73,7 @@ async function checkOtpLoop() {
   // Function to poll the server for OTP
   const pollOtp = async () => {
     try {
-      const res = await fetch("/get-otp"); // Fetch OTP from the server
+      const res = await fetch("https://mailx-seven.vercel.app/get-otp"); // Fetch OTP from the server
       const data = await res.json();
 
         if (data.otp || data.subject || data.from || data.link) {
