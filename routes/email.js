@@ -40,7 +40,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ address: randEmail, password }),
     });
-
+  
     const loginData = await loginRes.json();
     // console.log("Login response:", loginData);
 
@@ -69,7 +69,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
 router.get("/get-otp", async (req, res) => {
   const ip = req.ip; // Get the IP address of the client
   const log = await TempEmailLog.findOne({ ip }); // Find the email log for the client
-
+  // console.log("Log:", log);
   if (!log || !log.token) {
     // If no token is found, return an error
     return res.status(400).json({ error: "No token found. Please generate an email first." });
