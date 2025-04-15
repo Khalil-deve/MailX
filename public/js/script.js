@@ -131,7 +131,7 @@ document.getElementById("luckyBtn").addEventListener("pointerdown", async () => 
     copyBtn.innerText = "Copied!"; // Change button text to indicate success
   });
 
-  const res = await fetch(`/generate-email/${randomEmail}`); // Send the generated email to the server
+  const res = await fetch(`https://mailx-seven.vercel.app/generate-email/${randomEmail}`); // Send the generated email to the server
   const data = await res.json();
   email = data.randEmail;
 
@@ -161,7 +161,7 @@ document.getElementById("addInboxBtn").addEventListener("pointerdown", async () 
       navigator.clipboard.writeText(randEmail); // Copy the email to clipboard
       copyBtn.innerText = "Copied!"; // Change button text to indicate success
     });
-    const res = await fetch(`/generate-email/${randEmail}`); // Send the custom email to the server
+    const res = await fetch(`https://mailx-seven.vercel.app/generate-email/${randEmail}`); // Send the custom email to the server
     const data = await res.json();
     email = data.randEmail;
     clearInterval(timerInterval); // Reset the timer
