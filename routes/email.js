@@ -29,7 +29,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     });
 
     const rawText = await accountRes.text();
-    console.log("Raw response body:", rawText); // ✅ See exactly what you're getting
+    console.log("Raw response create account section:", rawText); // ✅ See exactly what you're getting
     
     let accountData;
     try {
