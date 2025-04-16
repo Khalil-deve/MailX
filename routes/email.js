@@ -26,7 +26,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     });
 
     const accountData = await accountRes.json();
-    // console.log("Account response:", accountData);
+    console.log("Account response:", accountData.status);
 
     if (accountRes.status !== 201) {
       // If account creation fails, return an error
@@ -42,7 +42,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     });
   
     const loginData = await loginRes.json();
-    // console.log("Login response:", loginData);
+    console.log("Login response:", loginData);
 
     if (!loginData.token) {
       // If login fails, return an error
@@ -61,7 +61,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
   } catch (err) {
     // Handle any errors that occur during the process
     console.error("Error generating email:", err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ err: "Server error" });
   }
 });
 
