@@ -9,7 +9,7 @@ const RequestLog = require("../model/requestLog.js");
 router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
   const ip = req.ip; // Get the IP address of the client
   const randEmail = req.params.randEmail; // Get the random email from the route parameter
-
+  console.log("Random email:", randEmail);
   if (!randEmail) {
     // If no email is provided, return an error
     return res.status(500).json({ error: "No valid email available." });
@@ -60,7 +60,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     res.json({ randEmail });
   } catch (err) {
     // Handle any errors that occur during the process
-    // console.error("Error generating email:", err);
+    console.error("Error generating email:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -69,7 +69,7 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
 router.get("/get-otp", async (req, res) => {
   const ip = req.ip; // Get the IP address of the client
   const log = await TempEmailLog.findOne({ ip }); // Find the email log for the client
-  // console.log("Log:", log);
+  console.log("Log:", log);
   if (!log || !log.token) {
     // If no token is found, return an error
     return res.status(400).json({ error: "No token found. Please generate an email first." });
