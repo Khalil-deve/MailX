@@ -21,12 +21,26 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
     // Step 1: Create account on mail.tm
     const accountRes = await fetch("https://api.mail.tm/accounts", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+       },
       body: JSON.stringify({ address: randEmail, password }),
     });
 
-    const accountData = await accountRes.json();
-    console.log("Account response:", accountData.status);
+    const rawText = await accountRes.text();
+    console.log("Raw response body:", rawText); // ✅ See exactly what you're getting
+    
+    let accountData;
+    try {
+      accountData = JSON.parse(rawText);
+    } catch (err) {
+      console.error("JSON parse error:", err);
+      return res.status(500).json({
+        error: "Invalid JSON response from mail.tm",
+        rawBody: rawText,
+      });
+    }
 
     if (accountRes.status !== 201) {
       // If account creation fails, return an error
@@ -41,8 +55,22 @@ router.get("/generate-email/:randEmail", rateLimiter, async (req, res) => {
       body: JSON.stringify({ address: randEmail, password }),
     });
   
-    const loginData = await loginRes.json();
-    console.log("Login response:", loginData);
+    const rawTextRes = await loginRes.text();
+    console.log("Raw response body:", rawTextRes); // ✅ See exactly what you're getting
+    
+    let loginData;
+    try {
+      loginData = JSON.parse(rawTextRes);
+    } catch (err) {
+      console.error("JSON parse error:", err);
+      return res.status(500).json({
+        error: "Invalid JSON response from mail.tm",
+        rawBody: rawTextRes,
+      });
+    }
+
+    // const loginData = await loginRes.json();
+    // console.log("Login response:", loginData);
 
     if (!loginData.token) {
       // If login fails, return an error
